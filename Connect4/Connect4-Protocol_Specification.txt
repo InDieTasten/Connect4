@@ -7,13 +7,24 @@ Connection establishment and matchmaking
 		GameStartPacket
 
 Gameplay
-	401 - <int> [Server]
-		Tells clients whose turn it is
-	402 - <int> [Client]
-		I choose column <int>
-	403 - <level> [Server]
+	401 - <level> [Server]
 		Tells both client the new layout of the level
-	404 - <int> [Server]
+	402 - <level> <int> [Server]
 		Tells both clients who won the game
-	405 - <void> [Server]
+	403 - <level> <void> [Server]
 		The game was tied
+	410 - <int> [Server]
+		Tells clients whose turn it is
+	500 - <int> [Client]
+		I choose column <int>
+
+401
+410
+500
+401
+410
+500
+401
+410
+500
+402 || 403
