@@ -9,6 +9,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Connect4_Server", "..\Conne
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Connect4_Client", "..\Connect4_Client\Connect4_Client.vcxproj", "{E1B88CDB-860D-4A37-8D64-DEC1C0CFA8C5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E9630692-F76B-40FE-9CC3-0810555CC497}"
+	ProjectSection(SolutionItems) = preProject
+		Connect4-Protocol_Specification.txt = Connect4-Protocol_Specification.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

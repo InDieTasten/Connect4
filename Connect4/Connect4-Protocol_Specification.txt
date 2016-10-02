@@ -1,0 +1,19 @@
+Connection establishment and matchmaking
+	201 - <std::string> [Server]
+		Player0WaitingPacket
+	202 - <std::string> [Server]
+		Player1PlayerInfoPacket
+	300 - <void> [Server]
+		GameStartPacket
+
+Gameplay
+	401 - <int> [Server]
+		Tells clients whose turn it is
+	402 - <int> [Client]
+		I choose column <int>
+	403 - <level> [Server]
+		Tells both client the new layout of the level
+	404 - <int> [Server]
+		Tells both clients who won the game
+	405 - <void> [Server]
+		The game was tied
