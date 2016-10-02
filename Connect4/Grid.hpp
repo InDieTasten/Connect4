@@ -30,6 +30,7 @@ public:
 	bool InsertCoin(sf::Vector2f position);
 	bool CheckForWinner();
 	void Reset();
+	int GetLastWinner();
 
 	// Inherited via Drawable
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const override;

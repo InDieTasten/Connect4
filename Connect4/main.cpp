@@ -43,7 +43,16 @@ int main()
 				{
 					if (grid.CheckForWinner())
 					{
-						std::cout << "Hello, somebody won a game!" << std::endl;
+						switch (grid.GetLastWinner())
+						{
+						case 0:
+							std::cout << "Blue won the game" << std::endl;
+							break;
+						case 1:
+							std::cout << "Red won the game" << std::endl;
+							break;
+						}
+						grid.Reset();
 					}
 				}
 				break;

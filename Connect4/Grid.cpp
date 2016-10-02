@@ -141,8 +141,6 @@ Grid::Grid(unsigned int _columnCount, unsigned int _rowCount)
 	rowCount = _rowCount;
 
 	Reset();
-
-	update();
 }
 
 bool Grid::InsertCoin(sf::Vector2f position)
@@ -183,6 +181,13 @@ void Grid::Reset()
 	{
 		level.push_back(std::vector<int>());
 	}
+
+	update();
+}
+
+int Grid::GetLastWinner()
+{
+	return lastwinner;
 }
 
 void Grid::draw(sf::RenderTarget & target, sf::RenderStates states) const
