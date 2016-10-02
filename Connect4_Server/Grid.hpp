@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML\Graphics.hpp>
+#include <SFML\Network.hpp>
 #include <list>
 
 class Grid : public sf::Drawable, public sf::Transformable
@@ -19,7 +20,6 @@ private:
 	int turns = 0;
 	std::vector<std::vector<int>> level;
 
-	bool persistCoint(unsigned int column, int player);
 	bool checkForWinner(int player);
 
 	//components
@@ -28,11 +28,15 @@ private:
 public:
 	Grid(unsigned int _columnCount, unsigned int _rowCount);
 
-	bool InsertCoin(sf::Vector2f position);
+	bool InsertCoin(unsigned int column);
 	bool CheckForWinner();
 	void Reset();
 	int GetLastWinner();
 	bool IsSpaceLeft();
+	int GetCurrentPlayer();
+
+	//Networking
+	void AppendLevelToPacket(sf::Packet& packet);
 
 	// Inherited via Drawable
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const override;

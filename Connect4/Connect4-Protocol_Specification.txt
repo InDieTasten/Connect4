@@ -11,7 +11,7 @@ Gameplay
 		Tells both client the new layout of the level
 	402 - <level> <int> [Server]
 		Tells both clients who won the game
-	403 - <level> <void> [Server]
+	403 - <level> [Server]
 		The game was tied
 	410 - <int> [Server]
 		Tells clients whose turn it is

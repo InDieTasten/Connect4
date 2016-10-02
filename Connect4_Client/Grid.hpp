@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SFML\Network.hpp>
 #include <SFML\Graphics.hpp>
 #include <list>
 
@@ -17,9 +18,10 @@ private:
 	int player = 0;
 	int lastwinner = 1;
 	int turns = 0;
+	unsigned int lastinsert;
 	std::vector<std::vector<int>> level;
 
-	bool persistCoint(unsigned int column, int player);
+	bool isAllowedMove(unsigned int column, int player);
 	bool checkForWinner(int player);
 
 	//components
@@ -32,7 +34,10 @@ public:
 	bool CheckForWinner();
 	void Reset();
 	int GetLastWinner();
+	unsigned int GetLastMove();
 	bool IsSpaceLeft();
+
+	void LoadLevelFromPacket(sf::Packet& packet);
 
 	// Inherited via Drawable
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const override;

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SFML\Graphics.hpp>
 #include <SFML\Network.hpp>
+#include "gamerunner.hpp"
 
 int main()
 {
@@ -68,8 +69,8 @@ int main()
 								}
 								else
 								{
-									//
-									sf::sleep(sf::seconds(10.0f));
+									GameRunner gameRunner(player0, player1);
+									gameRunner.Run();
 								}
 
 							}

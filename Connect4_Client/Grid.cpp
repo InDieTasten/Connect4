@@ -1,16 +1,8 @@
 #include "Grid.hpp"
 
-bool Grid::persistCoint(unsigned int column, int player)
+bool Grid::isAllowedMove(unsigned int column, int player)
 {
-	if (level[column].size() < rowCount)
-	{
-		level[column].push_back(player);
-		turns++;
-		update();
-		return true;
-	}
-
-	return false;
+	return (level[column].size() < rowCount);
 }
 
 bool Grid::checkForWinner(int _player)
@@ -156,10 +148,9 @@ bool Grid::InsertCoin(sf::Vector2f position)
 			if (xpos >= column * cellWidth && xpos < column * cellWidth + cellWidth)
 			{
 				//todo push coin
-				if (persistCoint(column, player))
+				if (isAllowedMove(column, player))
 				{
-					player = (player + 1) % 2;
-					update();
+					lastinsert = column;
 					return true;
 				}
 			}
@@ -192,9 +183,38 @@ int Grid::GetLastWinner()
 	return lastwinner;
 }
 
+unsigned int Grid::GetLastMove()
+{
+	return lastinsert;
+}
+
 bool Grid::IsSpaceLeft()
 {
 	return turns < columnCount * rowCount;
+}
+
+void Grid::LoadLevelFromPacket(sf::Packet& packet)
+{
+	packet >> columnCount;
+	packet >> rowCount;
+
+	level.clear();
+
+	for (unsigned int column = 0; column < columnCount; column++)
+	{
+		std::vector<int> coldata;
+		size_t rows;
+		packet >> rows;
+		for (unsigned int row = 0; row < rows; row++)
+		{
+			int coin;
+			packet >> coin;
+			coldata.push_back(coin);
+		}
+		level.push_back(coldata);
+	}
+
+	update();
 }
 
 void Grid::draw(sf::RenderTarget & target, sf::RenderStates states) const

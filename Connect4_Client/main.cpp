@@ -2,6 +2,7 @@
 
 #include <SFML\Graphics.hpp>
 #include <SFML\Network.hpp>
+#include "GameClient.hpp"
 
 int main()
 {
@@ -77,7 +78,8 @@ int main()
 						std::cout << "[Info] Game started!" << std::endl;
 						std::cout << "You are player #" << player << std::endl;
 						//
-						sf::sleep(sf::seconds(10.0f));
+						GameClient client(socket);
+						client.Run(player);
 					}
 					else
 					{

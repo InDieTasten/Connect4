@@ -1,18 +1,5 @@
 #include "Grid.hpp"
 
-bool Grid::persistCoint(unsigned int column, int player)
-{
-	if (level[column].size() < rowCount)
-	{
-		level[column].push_back(player);
-		turns++;
-		update();
-		return true;
-	}
-
-	return false;
-}
-
 bool Grid::checkForWinner(int _player)
 {
 	//check for verticals
@@ -144,26 +131,15 @@ Grid::Grid(unsigned int _columnCount, unsigned int _rowCount)
 	Reset();
 }
 
-bool Grid::InsertCoin(sf::Vector2f position)
+bool Grid::InsertCoin(unsigned int column)
 {
-	sf::Vector2f transformedLocation = this->getInverseTransform().transformPoint(position);
-
-	if (transformedLocation.y >= 0.0f && transformedLocation.y <= rowCount*cellHeight)
+	if (level[column].size() < rowCount)
 	{
-		for (unsigned int column = 0; column < columnCount; column++)
-		{
-			float xpos = transformedLocation.x;
-			if (xpos >= column * cellWidth && xpos < column * cellWidth + cellWidth)
-			{
-				//todo push coin
-				if (persistCoint(column, player))
-				{
-					player = (player + 1) % 2;
-					update();
-					return true;
-				}
-			}
-		}
+		level[column].push_back(player);
+		turns++;
+		player = (player + 1) % 2;
+		update();
+		return true;
 	}
 
 	return false;
@@ -195,6 +171,25 @@ int Grid::GetLastWinner()
 bool Grid::IsSpaceLeft()
 {
 	return turns < columnCount * rowCount;
+}
+
+int Grid::GetCurrentPlayer()
+{
+	return player;
+}
+
+void Grid::AppendLevelToPacket(sf::Packet & _packet)
+{
+	_packet << level.size();
+	_packet << rowCount;
+	for (auto column : level)
+	{
+		_packet << column.size();
+		for (auto coin : column)
+		{
+			_packet << coin;
+		}
+	}
 }
 
 void Grid::draw(sf::RenderTarget & target, sf::RenderStates states) const
