@@ -39,12 +39,7 @@ int main()
 			case sf::Event::MouseButtonPressed:
 
 				sf::Vector2f levelposition = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
-
-				if (grid.InsertCoin(player, levelposition))
-				{
-					//set turn for next player
-					player = (player + 1) % 2;
-				}
+				grid.InsertCoin(levelposition);
 				break;
 			}
 		}

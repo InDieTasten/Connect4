@@ -5,6 +5,7 @@ bool Grid::persistCoin(unsigned int column, int player)
 	if (level[column].size() < rowCount)
 	{
 		level[column].push_back(player);
+		update();
 		return true;
 	}
 
@@ -21,7 +22,7 @@ Grid::Grid(unsigned int _columnCount, unsigned int _rowCount)
 	update();
 }
 
-bool Grid::InsertCoin(int player, sf::Vector2f position)
+bool Grid::InsertCoin(sf::Vector2f position)
 {
 	sf::Vector2f transformedLocation = this->getInverseTransform().transformPoint(position);
 
@@ -33,7 +34,11 @@ bool Grid::InsertCoin(int player, sf::Vector2f position)
 			if (xpos >= column * cellWidth && xpos < column * cellWidth + cellWidth)
 			{
 				//todo push coin
-				return persistCoin(column, player);
+				if (persistCoin(column, player))
+				{
+					player = (player + 1) % 2;
+					update();
+				}
 			}
 		}
 	}
@@ -56,6 +61,9 @@ void Grid::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	states.transform.combine(this->getTransform());
 	for (auto it : drawables)
 		target.draw(it, states);
+
+	for (auto it : coins)
+		target.draw(it, states);
 }
 
 void Grid::update()
@@ -65,7 +73,14 @@ void Grid::update()
 	sf::RectangleShape rectShape;
 	rectShape.setSize(sf::Vector2f(columnCount*cellWidth, rowCount*cellHeight));
 	rectShape.setOutlineThickness(2.0f);
-	rectShape.setOutlineColor(sf::Color::Blue);
+	switch (player)
+	{
+	case 0:
+		rectShape.setOutlineColor(sf::Color::Blue);
+		break;
+	case 1:
+		rectShape.setOutlineColor(sf::Color::Red);
+	}
 	rectShape.setFillColor(sf::Color::Black);
 
 	drawables.push_back(rectShape);
@@ -77,8 +92,30 @@ void Grid::update()
 		rectShape.setSize(sf::Vector2f(1.0f, rowCount*cellHeight));
 		rectShape.setFillColor(sf::Color::White);
 		rectShape.setOutlineColor(sf::Color::Green);
-		rectShape.setOutlineThickness(1.0f);
+		rectShape.setOutlineThickness(0.0f);
 
 		drawables.push_back(rectShape);
+	}
+
+	coins.clear();
+
+	for (unsigned int column = 0; column < columnCount; column++)
+	{
+		for (unsigned int coin = 1; coin < level[column].size()+1; coin++)
+		{
+			sf::CircleShape circle;
+			circle.setRadius(cellHeight / 2.0f);
+			switch (level[column][coin - 1])
+			{
+			case 0:
+				circle.setFillColor(sf::Color::Blue);
+				break;
+			case 1:
+				circle.setFillColor(sf::Color::Red);
+			}
+			circle.setPosition(column*cellWidth+2.0f, rowCount*cellHeight - coin*cellHeight);
+
+			coins.push_back(circle);
+		}
 	}
 }
