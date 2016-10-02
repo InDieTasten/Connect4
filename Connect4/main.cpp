@@ -39,7 +39,13 @@ int main()
 			case sf::Event::MouseButtonPressed:
 
 				sf::Vector2f levelposition = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
-				grid.InsertCoin(levelposition);
+				if (grid.InsertCoin(levelposition))
+				{
+					if (grid.CheckForWinner())
+					{
+						std::cout << "Hello, somebody won a game!" << std::endl;
+					}
+				}
 				break;
 			}
 		}

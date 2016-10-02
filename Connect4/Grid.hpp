@@ -12,11 +12,14 @@ private:
 	float cellWidth = 30.0f;
 	float cellHeight = 26.0f;
 
-	int player = 0;
+	unsigned int requiredToWin = 4;
 
+	int player = 0;
+	int lastwinner = 1;
 	std::vector<std::vector<int>> level;
 
 	bool persistCoin(unsigned int column, int player);
+	bool checkForWinner(int player);
 
 	//components
 	std::list<sf::CircleShape> coins;
@@ -25,6 +28,7 @@ public:
 	Grid(unsigned int _columnCount, unsigned int _rowCount);
 
 	bool InsertCoin(sf::Vector2f position);
+	bool CheckForWinner();
 	void Reset();
 
 	// Inherited via Drawable

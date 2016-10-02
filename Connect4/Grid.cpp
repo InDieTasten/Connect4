@@ -12,6 +12,129 @@ bool Grid::persistCoin(unsigned int column, int player)
 	return false;
 }
 
+bool Grid::checkForWinner(int _player)
+{
+	//check for verticals
+	for (unsigned int column = 0; column < columnCount; column++)
+	{
+		unsigned int sequence = 0;
+		for (unsigned int coin = 0; coin < level[column].size(); coin++)
+		{
+			if (level[column][coin] == _player)
+				sequence++;
+			else
+				sequence = 0;
+
+			if (sequence >= requiredToWin)
+			{
+				lastwinner = _player;
+				return true;
+			}
+		}
+	}
+
+	//check for horizontals
+	for (unsigned int row = 0; row < rowCount; row++)
+	{
+		unsigned int sequence = 0;
+		for (unsigned int column = 0; column < columnCount; column++)
+		{
+			if (level[column].size() > row)
+			{
+				if (level[column][row] == _player)
+				{
+					sequence++;
+				}
+				else
+				{
+					sequence = 0;
+				}
+			}
+			else
+			{
+				sequence = 0;
+			}
+			if (sequence >= requiredToWin)
+			{
+				lastwinner = _player;
+				return true;
+			}
+		}
+	}
+
+	//check for diagonals (bottom left to top right)
+	for (unsigned int column = 0; column < columnCount; column++)
+	{
+		for (unsigned int row = 0; row < rowCount; row++)
+		{
+			unsigned int sequence = 0;
+			unsigned step = 0;
+
+			while (column + step < columnCount && row + step < rowCount)
+			{
+				if (level[column+step].size() > row+step)
+				{
+					if (level[column+step][row+step] == _player)
+					{
+						sequence++;
+					}
+					else
+					{
+						sequence = 0;
+					}
+				}
+				else
+				{
+					sequence = 0;
+				}
+				if (sequence >= requiredToWin)
+				{
+					lastwinner = _player;
+					return true;
+				}
+				step++;
+			}
+		}
+	}
+
+	//check for diagonals (top left to bottom right)
+	for (unsigned int column = 0; column < columnCount; column++)
+	{
+		for (int row = rowCount-1; row >= 0; row--)
+		{
+			unsigned int sequence = 0;
+			unsigned step = 0;
+
+			while (column + step < columnCount && row - step >= 0)
+			{
+				if (level[column + step].size() > row - step)
+				{
+					if (level[column + step][row - step] == _player)
+					{
+						sequence++;
+					}
+					else
+					{
+						sequence = 0;
+					}
+				}
+				else
+				{
+					sequence = 0;
+				}
+				if (sequence >= requiredToWin)
+				{
+					lastwinner = _player;
+					return true;
+				}
+				step++;
+			}
+		}
+	}
+
+	return false;
+}
+
 Grid::Grid(unsigned int _columnCount, unsigned int _rowCount)
 {
 	columnCount = _columnCount;
@@ -38,12 +161,18 @@ bool Grid::InsertCoin(sf::Vector2f position)
 				{
 					player = (player + 1) % 2;
 					update();
+					return true;
 				}
 			}
 		}
 	}
 
 	return false;
+}
+
+bool Grid::CheckForWinner()
+{
+	return checkForWinner(0) || checkForWinner(1);
 }
 
 void Grid::Reset()
