@@ -5,6 +5,7 @@ bool Grid::persistCoin(unsigned int column, int player)
 	if (level[column].size() < rowCount)
 	{
 		level[column].push_back(player);
+		turns++;
 		update();
 		return true;
 	}
@@ -175,6 +176,7 @@ bool Grid::CheckForWinner()
 
 void Grid::Reset()
 {
+	turns = 0;
 	level.clear();
 
 	for (unsigned int column = 0; column < columnCount; column++)
@@ -188,6 +190,11 @@ void Grid::Reset()
 int Grid::GetLastWinner()
 {
 	return lastwinner;
+}
+
+bool Grid::IsSpaceLeft()
+{
+	return turns < columnCount * rowCount;
 }
 
 void Grid::draw(sf::RenderTarget & target, sf::RenderStates states) const

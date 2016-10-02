@@ -16,6 +16,7 @@ private:
 
 	int player = 0;
 	int lastwinner = 1;
+	int turns = 0;
 	std::vector<std::vector<int>> level;
 
 	bool persistCoin(unsigned int column, int player);
@@ -31,6 +32,7 @@ public:
 	bool CheckForWinner();
 	void Reset();
 	int GetLastWinner();
+	bool IsSpaceLeft();
 
 	// Inherited via Drawable
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const override;

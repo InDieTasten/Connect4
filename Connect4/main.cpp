@@ -54,6 +54,11 @@ int main()
 						}
 						grid.Reset();
 					}
+					else if (!grid.IsSpaceLeft())
+					{
+						std::cout << "It's a TIE!" << std::endl;
+						grid.Reset();
+					}
 				}
 				break;
 			}
