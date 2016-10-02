@@ -1,0 +1,3 @@
+http://www.sfml-dev.org/download/sfml/2.4.0/
+
+direct download: http://mirror0.sfml-dev.org/files/SFML-2.4.0-windows-vc14-32-bit.zip
